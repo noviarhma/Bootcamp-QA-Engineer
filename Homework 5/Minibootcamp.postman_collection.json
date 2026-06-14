@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "Minibootcamp",
+    "_postman_id": "minibootcamp-collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET Bank Acc No",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{basic_Auth}}"
+          }
+        ],
+        "url": {
+          "raw": "https://api.iluma.ai/v1.1/identity/bank_account_data_requests/bknv_6a2963f06540322bbff05a51",
+          "protocol": "https",
+          "host": ["api", "iluma", "ai"],
+          "path": ["v1.1", "identity", "bank_account_data_requests", "bknv_6a2963f06540322bbff05a51"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "//Cek response API ke server",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "//Cek response time",
+              "pm.test(\"Response time is less than 200ms\", function () {",
+              "    pm.expect(pm.response.responseTime).to.be.below(200);",
+              "});",
+              "",
+              "pm.test(\"Nama Nasabah sesuai\", function(){",
+              "    pm.expect(pm.response.json().result.account_holder_name).to.eql(\"FIRA DIYANKA\");",
+              "})"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST Bank Acc No",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{basic_Auth}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"bank_account_number\": \"123456708\",\r\n    \"bank_code\": \"BCA\",\r\n    \"given_name\": \"FIRA DIYANKA\",\r\n    \"surname\": \"FIRA DIYANKA\",\r\n    \"reference_id\": \"testing123-456\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://api.iluma.ai/v1.1/identity/bank_account_data_requests",
+          "protocol": "https",
+          "host": ["api", "iluma", "ai"],
+          "path": ["v1.1", "identity", "bank_account_data_requests"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+              "});",
+              "",
+              "//Cek apakah data account number benar",
+              "pm.test(\"Bank account number is correct\", function () {",
+              "    pm.expect(pm.response.json().bank_account_number).to.equal(\"12345670\");",
+              "});",
+              "",
+              "//Cek Reference id tidak kosong",
+              "pm.test(\"Reference ID is not empty\", function () {",
+              "    pm.expect(pm.response.json().reference_id).to.not.be.empty;",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
