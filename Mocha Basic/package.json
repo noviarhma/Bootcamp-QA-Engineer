@@ -1,0 +1,20 @@
+{
+    "name": "Mini-Bootcamp-QA",
+    "version": "1.0.0",
+    "description": "Tugas Sesi 7",
+    "type": "module",
+    "scripts": {
+        "test": "mocha tests --recursive --timeout 6000 --report spec",
+        "test-report-html": "mocha tests --recursive --timeout 6000 --reporter mocha-simple-html-reporter --reporter-options output=report.html",
+        "test-report-json": "mocha test --recursive --timeout 6000 --reporter json > test-result.json"
+    },
+    "dependencies": {
+        "ajv": "8.20.0",
+        "node-fetch": "3.3.2"
+    },
+    "devDependencies": {
+        "chai": "^6.2.2",
+        "mocha": "^11.7.6",
+        "mocha-simple-html-reporter": "2.0.0"
+    }
+}
